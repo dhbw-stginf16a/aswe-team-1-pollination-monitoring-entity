@@ -13,7 +13,7 @@ def getPollination(body):
     data_filtered = [x for x in data['content'] if x['partregion_name'] == body['payload']['region']]
     response = {
         'type': body['payload']['day'],
-        'payload': {
+        'pollination': {
             'region': data_filtered[0]['region_name'],
             'partregion': data_filtered[0]['partregion_name'],
             'esche': data_filtered[0]['Pollen']['Esche'][body['payload']['day']],
