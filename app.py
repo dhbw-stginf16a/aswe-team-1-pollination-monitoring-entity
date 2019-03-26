@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
 
 import logging
+import os
+import time
 
+import requests
 import connexion
 from flask_cors import CORS
-
+from requests.exceptions import ConnectionError
 
 logger = logging.getLogger(__name__)
 
+
+CENTRAL_NODE_BASE_URL = os.environ["CENTRAL_NODE_BASE_URL"]
+OUR_URL = os.environ["OWN_URL"]
 
 app = connexion.App(__name__, specification_dir='openapi/')
 app.add_api('openapi.yml')
@@ -20,3 +26,25 @@ CORS(app.app)
 application = app.app
 
 logger.info('App initialized')
+
+# Start the update manager thread
+updater = CalendarUpdateManager()
+
+logger.info('Updater intialized')
+
+
+# Try to register the application on app startup
+@application.before_first_request
+def register():
+    while True:
+        logger.info("Attempt registration")
+        try:
+            r = requests.post("{}/monitoring".format(CENTRAL_NODE_BASE_URL), json = { "name": "pollination", "endpoint": OUR_URL, "concern": 'pollination'})
+            if r.status_code == 204:
+                logger.info("Registered")
+                break
+        except ConnectionError as conn:
+            logger.warning('Attempted registration failed: %s', conn)
+            logger.warning('Retrying in 5 seconds')
+
+        time.sleep(5)
