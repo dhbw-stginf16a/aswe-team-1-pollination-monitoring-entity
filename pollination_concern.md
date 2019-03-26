@@ -45,7 +45,17 @@ Request
     'type': 'current_pollination',
     'payload': {
         "region": "Mainfranken",
-        "day": "tomorrow"
+        "day": "tomorrow",
+        "pollen": {
+          "ambrosia": "true",
+          "beifuss": "false",
+          "birke": "true",
+          "erle": "false",
+          "esche": "true",
+          "graeser": "false",
+          "hasel": "false",
+          "roggen": "true"
+        }
     }
 }
 ```

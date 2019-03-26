@@ -13,7 +13,17 @@ class TestRequest(TestConnexion):
             'type': 'event_Pollution',
             'payload': {
                 'region': 'Mainfranken',
-                'day': 'today'
+                'day': 'today',
+                "pollen": {
+                    "ambrosia": "true",
+                    "beifuss": "false",
+                    "birke": "true",
+                    "erle": "false",
+                    "esche": "true",
+                    "graeser": "false",
+                    "hasel": "false",
+                    "roggen": "true"
+                }
             }
         }
 
