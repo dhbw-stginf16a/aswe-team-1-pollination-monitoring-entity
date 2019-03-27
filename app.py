@@ -27,9 +27,6 @@ application = app.app
 
 logger.info('App initialized')
 
-# Start the update manager thread
-updater = CalendarUpdateManager()
-
 logger.info('Updater intialized')
 
 
