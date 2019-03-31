@@ -2,12 +2,15 @@
 
 import logging
 import os
+import threading
 import time
 
-import requests
 import connexion
+import requests
 from flask_cors import CORS
 from requests.exceptions import ConnectionError
+
+from api.models.RegistrationThread import RegistrationThread
 
 logger = logging.getLogger(__name__)
 
@@ -27,21 +30,5 @@ application = app.app
 
 logger.info('App initialized')
 
-logger.info('Updater intialized')
-
-
-# Try to register the application on app startup
-#@application.before_first_request
-def register():
-    while True:
-        logger.info("Attempt registration")
-        try:
-            r = requests.post("{}/monitoring".format(CENTRAL_NODE_BASE_URL), json = { "name": "pollination", "endpoint": OUR_URL, "concern": 'pollination'})
-            if r.status_code == 204:
-                logger.info("Registered")
-                break
-        except ConnectionError as conn:
-            logger.warning('Attempted registration failed: %s', conn)
-            logger.warning('Retrying in 5 seconds')
-
-        time.sleep(5)
+app.registerThread = RegistrationThread(CENTRAL_NODE_BASE_URL, OUR_URL, 'pollination')
+app.registerThread.start()
