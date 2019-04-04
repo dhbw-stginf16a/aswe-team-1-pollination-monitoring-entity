@@ -29,7 +29,8 @@ This is all about pollination events.
 #### Request
 
 - **day** (string): Day of interest (either today, tomorrow or dayafter_tomorrow)
-- **region**: (string): Region of interest. Has to match one of the "part_regions"
+- **region** (string): Region of interest. Has to match one of the "part_regions"
+- **pollen** (dict): A dict with all pollen of interest. If a type of pollen is of interest it needs to be assigned the string "true". Pollen types that are not of interest can either be left out completely or contain any other value than "true" (preferably "false")
 
 #### Response
 
@@ -42,15 +43,13 @@ Request
 
 ```json
 {
-    'type': 'current_pollination',
-    'payload': {
+    "type": "current_pollination",
+    "payload": {
         "region": "Mainfranken",
         "day": "tomorrow",
         "pollen": {
           "ambrosia": "true",
-          "beifuss": "false",
           "birke": "true",
-          "erle": "false",
           "esche": "true",
           "graeser": "false",
           "hasel": "false",
@@ -69,14 +68,14 @@ Response
       "ambrosia": "0",
       "beifuss": "0",
       "birke": "0",
-      "day": "tomorrow",
       "erle": "2",
       "esche": "0-1",
       "graeser": "0",
       "hasel": "1",
+      "roggen": "0",
       "partregion": "Mainfranken",
       "region": "Bayern",
-      "roggen": "0"
+      "day": "tomorrow",
     },
     "type": "tomorrow"
   }
